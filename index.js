@@ -1,4 +1,4 @@
-const bars = [
+let bars = [
     {
       id: 1,
       name: "The Rusty Anchor",
@@ -134,7 +134,7 @@ const bars = [
     }
   ];
 
-const servidas = [
+let servidas = [
     {"bar_id":1,"beverage_id":2,"quantity":10,"price":5.99},
     {"bar_id":1,"beverage_id":5,"quantity":7,"price":8.50},
     {"bar_id":2,"beverage_id":1,"quantity":15,"price":3.99},
@@ -156,3 +156,26 @@ const servidas = [
     {"bar_id":10,"beverage_id":6,"quantity":7,"price":11.50},
     {"bar_id":10,"beverage_id":9,"quantity":5,"price":5.99}
   ];
+
+// punto 1
+function servidasLegales(){
+  let retiradas = 0;
+  for (let i = 0; i < servidas.length; i++) {
+    let legales = bars.find(
+      bar => (bar.id === servidas[i].bar_id)
+    ).liquor;
+    // console.log(legales);
+    let opc_beverage = beverages.find(
+      beverage => (beverage.id === servidas[i].beverage_id)
+    );
+    // console.log("tipo bebida: "+opc_beverage.type);
+    if (!(legales.includes(opc_beverage.type))) {
+      retiradas += 1;
+      servidas.splice(i,1);
+    }
+  }
+  console.log("retiradas: " + retiradas);
+  return servidas;
+}
+
+console.log(servidasLegales());
