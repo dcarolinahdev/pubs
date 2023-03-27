@@ -159,7 +159,6 @@ let servidas = [
 
 // punto 1
 function servidasLegales(){
-  let retiradas = 0;
   for (let i = 0; i < servidas.length; i++) {
     let legales = bars.find(
       bar => (bar.id === servidas[i].bar_id)
@@ -170,15 +169,19 @@ function servidasLegales(){
     );
     // console.log("tipo bebida: "+opc_beverage.type);
     if (!(legales.includes(opc_beverage.type))) {
-      retiradas += 1;
-      servidas.splice(i,1);
+      console.log("=> i="+i+" SI");
+      delete servidas[i];
+    } else {
+      console.log("=> i="+i+" NO");
     }
+    console.log("--------");
   }
-  console.log("retiradas: " + retiradas);
+  servidas = servidas.filter(e => e != null);
   return servidas;
 }
 
 console.log(servidasLegales());
+console.log(servidas.length);
 
 // punto 2 (servidas legales: con nombre, sin id)
 
