@@ -179,3 +179,28 @@ function servidasLegales(){
 }
 
 console.log(servidasLegales());
+
+// punto 2 (servidas legales: con nombre, sin id)
+
+function legalesCompleto(){
+  let answer = []
+
+  for (let i = 0; i < servidas.length; i++) {
+    let nombre_bar = bars.find(
+      bar => (bar.id === servidas[i].bar_id)
+    ).name;
+    let nombre_bebida = beverages.find(
+      beverage => (beverage.id === servidas[i].beverage_id)
+    ).name;
+    answer.push({
+      bar_name : nombre_bar,
+      beverage_name : nombre_bebida,
+      quantity : servidas[i].quantity,
+      price: servidas[i].price
+    })
+  }
+  return answer;
+}
+
+console.log(legalesCompleto());
+
