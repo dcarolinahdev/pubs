@@ -169,19 +169,18 @@ function servidasLegales(){
     );
     // console.log("tipo bebida: "+opc_beverage.type);
     if (!(legales.includes(opc_beverage.type))) {
-      console.log("=> i="+i+" SI");
+      // console.log("=> i="+i+" SI");
       delete servidas[i];
     } else {
-      console.log("=> i="+i+" NO");
+      // console.log("=> i="+i+" NO");
     }
-    console.log("--------");
+    // console.log("--------");
   }
   servidas = servidas.filter(e => e != null);
   return servidas;
 }
 
 console.log(servidasLegales());
-console.log(servidas.length);
 
 // punto 2 (servidas legales: con nombre, sin id)
 
@@ -207,3 +206,13 @@ function legalesCompleto(){
 
 console.log(legalesCompleto());
 
+// punto 3 pedir nombre bar y presupuesto y mostrar las bebidas de ese bar que pueda comprar
+
+let sel_bar = prompt("Escribe nombre del bar: ");
+let sel_price = parseFloat(prompt("Escribe tu presupuesto máximo: "));
+let base = legalesCompleto();
+console.log(
+  base.filter(
+    sel => (sel.bar_name == sel_bar && sel.price <= sel_price)
+  )
+);
