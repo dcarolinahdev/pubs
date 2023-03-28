@@ -160,14 +160,14 @@ const servidas = [
 // punto 1
 
 for (let i = 0; i < servidas.length; i++) {
-   arrayName = bars[servidas[i].bar_id-1].liquor
-   typeName = beverages[servidas[i].beverage_id-1].type
+  arrayName = bars[servidas[i].bar_id - 1].liquor
+  typeName = beverages[servidas[i].beverage_id - 1].type
 
-  if(arrayName.includes(typeName)== false){
+  if (arrayName.includes(typeName) == false) {
     servidas.splice(i, 1)
-    i-=1;
+    i -= 1;
   }
- 
+
 }
 console.log(servidas);
 
@@ -178,24 +178,61 @@ const quantityFilter = servidas.map(servidas => servidas.quantity)
 const price = servidas.map(servidas => servidas.price)
 
 const filtrado_servidas = servidas.map(servida => {
-    return {
+  return {
 
-      bar_name: barName[servida.bar_id - 1],
-      beverage_name: beverageName[servida.beverage_id -1],
-      quantity: servida.quantity,
-      price: servida.price
-    }
-  });
- 
+    bar_name: barName[servida.bar_id - 1],
+    beverage_name: beverageName[servida.beverage_id - 1],
+    quantity: servida.quantity,
+    price: servida.price
+  }
+});
+
 console.log(filtrado_servidas);
 
+function addCards() {
+  const cards = document.getElementById('cards');
+  for (let i = 0; i < filtrado_servidas.length; i++) {
+    let id = `cards${i + 1}`
+    let tempCard = createCard(id, filtrado_servidas[i]);
+    cards.appendChild(tempCard)
+  }
+}
 
-  //punto 3
-  // const nameBar = prompt('ingrese el nombre de algun bar')
-  // const budget = Number(prompt('ingrese su prosupuesto en dolares'))
-  // const arrayFiltrado = filtrado_servidas.filter(servida => servida.bar_name == nameBar && servida.price <= budget );
-  // console.log('------punto 3 ---------' );
-  // console.log(arrayFiltrado);
+
+function createCard(filtrado_servidas) {
+  let div = document.createElement('div');
+  div.className = 'card container text-center'
+  div.style = 'width:18rem'
+  div.innerHTML = `
+  <img src="https://st3.depositphotos.com/1063437/13221/i/450/depositphotos_132218858-stock-photo-bottles-of-assorted-hard-liquor.jpg" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Liquor: ${filtrado_servidas.beverage_name}</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Bar: ${filtrado_servidas.bar_name}</li>
+    <li class="list-group-item">Quantity: ${filtrado_servidas.quantity}</li>
+    <li class="list-group-item">Pirce: ${filtrado_servidas.price}</li>
+    <li class="list-group-item"></li>
+  </ul>
+  `
+  return div
+
+}
+
+addCards();
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
