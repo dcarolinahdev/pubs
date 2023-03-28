@@ -189,7 +189,7 @@ const filtrado_servidas = servidas.map(servida => {
 
 console.log(filtrado_servidas);
 
-function addCards() {
+function addCards(filtrado_servidas) {
   const cards = document.getElementById('cards');
   for (let i = 0; i < filtrado_servidas.length; i++) {
     let id = `cards${i + 1}`
@@ -199,7 +199,7 @@ function addCards() {
 }
 
 
-function createCard(filtrado_servidas) {
+function createCard(id, filtrado_servidas) {
   let div = document.createElement('div');
   div.className = 'card container text-center'
   div.style = 'width:18rem'
@@ -219,11 +219,33 @@ function createCard(filtrado_servidas) {
 
 }
 
-addCards();
+addCards(filtrado_servidas);
 
+const inputContainer = document.getElementById('inputContainer');
+const inputPrice = document.createElement('input');
+inputPrice.type = 'text';
+inputContainer.appendChild(inputPrice);
 
+const selectBar = document.createElement('select');
+barName.forEach((item) => {
+  const option = document.createElement('option');
+  option.value = item;
+  option.text = item;
+  selectBar.appendChild(option);
+})
+inputContainer.appendChild(selectBar);
 
+// funcion filtrar precio
+inputPrice.onchange = function () {
+  const filtrado = filtrado_servidas.filter((item) => {
+    item.price <= parseFloat(inputPrice.value)
+    console.log(item.price);
+    console.log(inputPrice.value);
 
+  })
+  addCards(filtrado);
+  console.log(filtrado);
+}
 
 
 
