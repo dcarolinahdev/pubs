@@ -172,16 +172,15 @@ for (let i = 0; i < servidas.length; i++) {
 console.log(servidas);
 
 // punto 2
-const barName = bars.map(bar => bar.name);
-const beverageName = beverages.map(beverage => beverage.name);
+const barNames = bars.map(bar => bar.name);
+const beverageNames = beverages.map(beverage => beverage.name);
 const quantityFilter = servidas.map(servidas => servidas.quantity)
 const price = servidas.map(servidas => servidas.price)
 
 const filtrado_servidas = servidas.map(servida => {
     return {
-
-        bar_name: barName[servida.bar_id - 1],
-        beverage_name: beverageName[servida.beverage_id - 1],
+        bar_name: barNames[servida.bar_id - 1],
+        beverage_name: beverageNames[servida.beverage_id - 1],
         quantity: servida.quantity,
         price: servida.price
     }
@@ -189,116 +188,97 @@ const filtrado_servidas = servidas.map(servida => {
 
 console.log(filtrado_servidas);
 
-function addCards(filtrado_servidas) {
-    const cards = document.getElementById('cards');
-    cards.innerHTML = '';
-    for (let i = 0; i < filtrado_servidas.length; i++) {
-        let id = `cards${i + 1}`
-        let tempCard = createCard(id, filtrado_servidas[i]);
-        cards.appendChild(tempCard)
+// ---------- DOM ----------
 
-    }
-}
-
-
-function createCard(id, filtrado_servidas) {
+// => esta funcion crea un div para un elemento dado por parámetro
+function createCard(id, elemento) {
     let div = document.createElement('div');
     div.className = 'card container text-center'
     div.style = 'width:18rem'
+
     div.innerHTML = `
     <img src="https://st3.depositphotos.com/1063437/13221/i/450/depositphotos_132218858-stock-photo-bottles-of-assorted-hard-liquor.jpg" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="card-title">Liquor: ${filtrado_servidas.beverage_name}</h5>
+      <h5 class="card-title">Liquor: ${elemento.beverage_name}</h5>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">Bar: ${filtrado_servidas.bar_name}</li>
-      <li class="list-group-item">Quantity: ${filtrado_servidas.quantity}</li>
-      <li class="list-group-item">Pirce: ${filtrado_servidas.price}</li>
+      <li class="list-group-item">Bar: ${elemento.bar_name}</li>
+      <li class="list-group-item">Quantity: ${elemento.quantity}</li>
+      <li class="list-group-item">Pirce: ${elemento.price}</li>
       <li class="list-group-item"></li>
     </ul>
     `
     return div
-
 }
 
-//   addCards(filtrado_servidas);
+// => esta funcion agrega las cards al div en el HTML usando la funcion anterior
+function addCards(array_beverages) {
+    const cards = document.getElementById('cards');
+    cards.innerHTML = '';
 
+    for (let i = 0; i < array_beverages.length; i++) {
+        let id = `cards${i + 1}`
+        let tempCard = createCard(id, array_beverages[i]);
+        cards.appendChild(tempCard)
+    }
+}
+
+// addCards(filtrado_servidas);
+
+// => creacion de elementos HTML correspondientes a input para filtros
 const inputContainer = document.getElementById('inputContainer');
+
 const inputPrice = document.createElement('input');
 inputPrice.type = 'text';
 inputContainer.appendChild(inputPrice);
 
 const selectBar = document.createElement('select');
-barName.forEach((item) => {
+barNames.forEach((item) => {
     const option = document.createElement('option');
     option.value = item;
     option.text = item;
     selectBar.appendChild(option);
 })
 inputContainer.appendChild(selectBar);
+
+// => acerca de los filtros
 let filtrado = [];
 
-
-// funcion filtrar precio
+// => filtros aplicados desde inputPrice
 inputPrice.onchange = () =>{
-    // const contenedor = document.getElementById('mi-contenedor');
-    // contenedor.innerHTML = '';
+    const contenedor = document.getElementById('mi-contenedor');
+    contenedor.innerHTML = '';
 
-    //   filtrado = filtrado_servidas.filter((item) => 
-    //     item.price <= parseFloat(inputPrice.value)
-    // ); 
+    let inputPriceValue = parseFloat(inputPrice.value);
+    let selectValue = selectBar.value;
 
-    // if (filtrado.length != 0) {
-    //     contenedor.innerHTML = '';
-    //     addCards(filtrado);
-    // } else {
-    //     addCards([]);
-    //     const msj = document.createElement('div');
-    //     msj.textContent = 'El valor ingresado es inferior a nuestros productos. Ingresa un valor superior a $5.99.';
-    //     contenedor.appendChild(msj);
-    // }
-    filterByCallback(filtrado_servidas,);
-};
+    filtrado = filtrado_servidas.filter((item) =>
+        item.price <= inputPriceValue
+    );
 
+    //filtrado = filterByCallback(filtrado_servidas, filterByPrice);
 
-
-selectBar.onchange =  () =>{
-    console.log(selectBar.value);
-    filtrado = filtrado_servidas.filter((item)=>
-    item.bar_name == selectBar.value
-    );    
-};
-
-function filterByCallback(listBars,callback){
-    
-    const filteredBars = [];
-    for(const x of barsToFilter){
-        if(callback(x)){
-            filteredBars.push(x);
-        }
+    if (filtrado.length != 0) {
+        contenedor.innerHTML = '';
+        addCards(filtrado);
+    } else {
+        addCards([]);
+        const msj = document.createElement('div');
+        msj.textContent = 'El valor ingresado es inferior a nuestros productos. Ingresa un valor superior a $5.99.';
+        contenedor.appendChild(msj);
     }
-    return filteredBars;
 
+};
 
-}
+// => filtros aplicados desde select
+selectBar.onchange =  () =>{
+    let selectValue = selectBar.value;
+    console.log(selectValue);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    filtrado = filtrado_servidas.filter((item)=>
+        item.bar_name == selectValue
+    );
+};
 
 
 
