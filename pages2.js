@@ -225,7 +225,7 @@ function addCards(array_beverages) {
 
 // addCards(filtrado_servidas);
 
-// => creacion de elementos HTML correspondientes a input para filtros
+// => creacion de elementos HTML correspondientes a inputs para filtros
 const inputContainer = document.getElementById('inputContainer');
 
 const inputPrice = document.createElement('input');
@@ -269,7 +269,7 @@ inputPrice.onchange = () =>{
     filtrado = filtrado_servidas.filter(
         (item) => (
             (item.price <= inputPriceValue) && (
-                (selectValue=="All bars") || (selectValue==item.bar_name)
+                (selectValue=="All bars") || (item.bar_name==selectValue)
             )
         )
     )
@@ -305,7 +305,7 @@ selectBar.onchange =  () =>{
     filtrado = filtrado_servidas.filter(
         (item) => (
             (item.price <= inputPriceValue) && (
-                (selectValue=="All bars") || (selectValue==item.bar_name)
+                (selectValue=="All bars") || (item.bar_name==selectValue)
             )
         )
     )
