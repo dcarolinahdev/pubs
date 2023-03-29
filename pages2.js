@@ -233,8 +233,14 @@ inputPrice.type = 'text';
 inputContainer.appendChild(inputPrice);
 
 const selectBar = document.createElement('select');
+// opcion "todos los bares"
+let option = document.createElement('option');
+option.value = "All bars";
+option.text = "All bars";
+selectBar.appendChild(option);
+// opciones listado bares
 barNames.forEach((item) => {
-    const option = document.createElement('option');
+    option = document.createElement('option');
     option.value = item;
     option.text = item;
     selectBar.appendChild(option);
@@ -252,11 +258,21 @@ inputPrice.onchange = () =>{
     let inputPriceValue = parseFloat(inputPrice.value);
     let selectValue = selectBar.value;
 
-    filtrado = filtrado_servidas.filter((item) =>
-        item.price <= inputPriceValue
-    );
+    console.log("=> inputs");
+    console.log(inputPriceValue);
+    console.log(selectValue);
 
-    //filtrado = filterByCallback(filtrado_servidas, filterByPrice);
+    /*filtrado = filtrado_servidas.filter((item) =>
+        item.price <= inputPriceValue
+    );*/
+
+    filtrado = filtrado_servidas.filter(
+        (item) => (
+            (item.price <= inputPriceValue) && (
+                (selectValue=="All bars") || (selectValue==item.bar_name)
+            )
+        )
+    )
 
     if (filtrado.length != 0) {
         contenedor.innerHTML = '';
@@ -264,7 +280,7 @@ inputPrice.onchange = () =>{
     } else {
         addCards([]);
         const msj = document.createElement('div');
-        msj.textContent = 'El valor ingresado es inferior a nuestros productos. Ingresa un valor superior a $5.99.';
+        msj.textContent = 'El filtro actual no corresponde con ninguna bebida. Ingrese un valor superior a $5.99 o elija otro bar.';
         contenedor.appendChild(msj);
     }
 
@@ -272,12 +288,37 @@ inputPrice.onchange = () =>{
 
 // => filtros aplicados desde select
 selectBar.onchange =  () =>{
+    const contenedor = document.getElementById('mi-contenedor');
+    contenedor.innerHTML = '';
+
+    let inputPriceValue = parseFloat(inputPrice.value);
     let selectValue = selectBar.value;
+
+    console.log("=> inputs");
+    console.log(inputPriceValue);
     console.log(selectValue);
 
-    filtrado = filtrado_servidas.filter((item)=>
+    /*filtrado = filtrado_servidas.filter((item)=>
         item.bar_name == selectValue
-    );
+    );*/
+
+    filtrado = filtrado_servidas.filter(
+        (item) => (
+            (item.price <= inputPriceValue) && (
+                (selectValue=="All bars") || (selectValue==item.bar_name)
+            )
+        )
+    )
+
+    if (filtrado.length != 0) {
+        contenedor.innerHTML = '';
+        addCards(filtrado);
+    } else {
+        addCards([]);
+        const msj = document.createElement('div');
+        msj.textContent = 'El filtro actual no corresponde con ninguna bebida. Ingrese un valor superior a $5.99 o elija otro bar.';
+        contenedor.appendChild(msj);
+    }
 };
 
 
