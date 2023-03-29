@@ -223,7 +223,7 @@ addCards(filtrado_servidas);
 
 const inputContainer = document.getElementById('inputContainer');
 const inputPrice = document.createElement('input');
-inputPrice.type = 'text';
+inputPrice.type = 'text'; 
 inputContainer.appendChild(inputPrice);
 
 const selectBar = document.createElement('select');
@@ -236,16 +236,48 @@ barName.forEach((item) => {
 inputContainer.appendChild(selectBar);
 
 // funcion filtrar precio
-inputPrice.onchange = function () {
-  const filtrado = filtrado_servidas.filter((item) => {
-    item.price <= parseFloat(inputPrice.value)
-    console.log(item.price);
-    console.log(inputPrice.value);
 
-  })
+
+
+inputPrice.onchange = function () {
+  const contenedor = document.getElementById('mi-contenedor');
+  contenedor.innerHTML = '';
+
+  const filtrado = filtrado_servidas.filter((item) => {
+    if(item.price <= parseFloat(inputPrice.value)){
+      addCards(filtrado_servidas); // aca debe de ir algo mas porq con la condicion me trae todas las cards de la funcion addcards 
+   
+    } else {
+      const msj = document.createElement('div');
+      msj.textContent = 'El valor ingresado es inferior a nuestros productos. Ingresa un valor superior a $5.99.';
+      contenedor.appendChild(msj);
+      
+    }
+  });
+
   addCards(filtrado);
-  console.log(filtrado);
-}
+};
+
+
+
+
+
+
+// inputPrice.onchange = function () {
+//   const filtrado = filtrado_servidas.filter((item) => {
+//     if(item.price <= parseFloat(inputPrice.value)){
+//       console.log(item.price);
+//     }else if (item.price > parseFloat(inputPrice.value)){
+//       const contenedor = document.getElementById('mi-contenedor')
+//       const msj = document.createElement('div')
+//       msj.textContent = 'el valor ingresado es inferior a nuestros productos ingresa un valor superior $ 5.99'
+//       contenedor.appendChild(msj)
+//     }
+//   })
+//   addCards(filtrado);
+//   console.log(filtrado);
+// }
+
 
 
 
